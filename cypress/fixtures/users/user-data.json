@@ -1,0 +1,17 @@
+{
+  "userSuccess": {
+    "email": "admin@test.com",
+    "password": "test123"
+  },
+  "userFail": {
+    "email": "test@gmail.com",
+    "password": "user123"
+  },
+  "userRegisterSuccess": {
+    "firstName": "Alex",
+    "lastName": "Terrible",
+    "username": "Baba Yaga",
+    "password": "Conflict1984",
+    "confirmPassword": "Conflict1984"
+  }
+}
