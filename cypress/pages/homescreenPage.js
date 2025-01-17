@@ -2,11 +2,12 @@ class dashboardPage {
     selectorsList() {
         const selectors = {
             homescreenLogo: "[alt='Cypress Heroes Logo']",
-            loginFormButton: "li > .undefined",
+            loginLogoutButton: "li > .undefined",
             loginForm: ".bg-white",
             likeButton: "[data-cy='like']",
-            loginToLikeAlert: "div.flex > div.flex-col > h5",
+            loginToActionAlert: "div.flex > div.flex-col > h5",
             body: "body",
+            hireButton: "[data-cy='money']",
 
 
         }
@@ -21,7 +22,7 @@ class dashboardPage {
     }
 
     openLoginForm() {
-        cy.get(this.selectorsList().loginFormButton)
+        cy.get(this.selectorsList().loginLogoutButton)
             .click()
 
         cy.get(this.selectorsList().loginForm)
@@ -35,8 +36,8 @@ class dashboardPage {
             .click()
 
         cy.get(this.selectorsList().body).then(($body) => {
-            if ($body.find(this.selectorsList().loginToLikeAlert).length > 0) {
-                cy.get(this.selectorsList().loginToLikeAlert)
+            if ($body.find(this.selectorsList().loginToActionAlert).length > 0) {
+                cy.get(this.selectorsList().loginToActionAlert)
                     .should('be.visible')
                     .and('contain', 'You must log in to like.')
             } else {
@@ -48,6 +49,39 @@ class dashboardPage {
             }
         })
 
+    }
+
+    interactWithHireButton() {
+        cy.get(this.selectorsList().hireButton)
+            .eq(0)
+            .click()
+
+        cy.get(this.selectorsList().body).then(($body) => {
+            if ($body.find(this.selectorsList().loginToActionAlert).length > 0) {
+                cy.get(this.selectorsList().loginToActionAlert)
+                    .should('be.visible')
+                    .and('contain', 'You must log in to hire this hero.')
+            } else {
+                cy.get(this.selectorsList().hireButton)
+                    .each(($button) => {
+                        cy.wrap($button).click()
+                    })
+
+            }
+        })
+
+    }
+
+    logoutAction(){
+        cy.wait(1500)
+        cy.get(this.selectorsList().loginLogoutButton).then($button => {
+            if ($button.text().includes('Logout')) {
+                cy.wrap($button).click()
+                cy.get(this.selectorsList().loginLogoutButton).should('have.text', 'Login')
+            } else {
+                cy.log('Usuário não está logado')
+            }
+        })
     }
 }
 export default dashboardPage
